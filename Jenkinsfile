@@ -8,6 +8,26 @@ pipeline {
                 sh 'npm install' // Example for Node.js
             }
         }
+        stage('SAST Analysis') {
+            steps {
+                echo 'Running SonarQube Analysis...'
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner -Dsonar.projectKey=my-app'
+                }
+            }
+        }
+        stage('DAST Testing') {
+    steps {
+        echo 'Running OWASP ZAP...'
+        zap(
+            zapHome: '/snap/zaproxy/current',
+            target: 'http://<your-app-url>',
+            report: 'zap_report.html',
+            failAllAlerts: false
+        )
+    }
+}
+
         stage('Test') {
             steps {
                 echo 'Running tests...'
