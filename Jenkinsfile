@@ -8,12 +8,6 @@ pipeline {
                 sh 'npm install' // Example for Node.js
             }
         }
-#        stage('Test') {
- #           steps {
-  #              echo 'Running tests...'
-   #             sh 'npm test' // Replace with relevant test command
-    #        }
-     #   }
         stage('SAST Analysis') {
             steps {
                 script {
