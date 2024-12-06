@@ -41,7 +41,22 @@ pipeline {
                 dependencyCheckAnalyzer pattern: '**/*.jar'
             }
         }
-        stage('Deploy') {
+        stages {
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/vampire07/scotland_yard.git'
+            }
+        }
+        stage('Provision Infrastructure') {
+            steps {
+                echo 'Provisioning Infrastructure with Terraform...'
+                sh 'terraform init'               // Initialize Terraform
+                sh 'terraform apply -auto-approve' // Apply Terraform configuration without user approval
+            }
+        }
+    }
+}
+stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
                 sh 'npm run deploy' // Replace with deploy command
