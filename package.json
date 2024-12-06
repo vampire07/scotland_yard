@@ -1,0 +1,28 @@
+{
+  "name": "scotland_yard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js",
+    "deploy": "echo 'Deploying...'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vampire07/scotland_yard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vampire07/scotland_yard/issues"
+  },
+  "homepage": "https://github.com/vampire07/scotland_yard#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.2.2",
+    "supertest": "^6.3.4"
+  }
+}
