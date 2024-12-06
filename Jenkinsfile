@@ -8,14 +8,37 @@ pipeline {
                 sh 'npm install' // Example for Node.js
             }
         }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'npm test' // Replace with relevant test command
+            }
+        }
         stage('SAST Analysis') {
             steps {
                 script {
                     echo 'Running SonarQube analysis...'
-                    withSonarQubeEnv('SonarQube') { // Ensure 'SonarQube' matches the name you configured in Jenkins
-                        sh 'sonar-scanner' // This command runs the SonarQube scanner
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'SonarQube Scanner for Jenkins'
                     }
                 }
+            }
+        }
+        stage('DAST Testing') {
+            steps {
+                script {
+                    zap(
+                        zapHome: '/snap/zaproxy/current',
+                        target: 'http://192.168.2.212:9000',
+                        report: 'zap_report.html',
+                        failAllAlerts: false
+                    )
+                }
+            }
+        }
+        stage('Dependency Scanning') {
+            steps {
+                dependencyCheckAnalyzer pattern: '**/*.jar'
             }
         }
         stage('Deploy') {
