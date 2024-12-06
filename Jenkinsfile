@@ -21,7 +21,7 @@ pipeline {
         echo 'Running OWASP ZAP...'
         zap(
             zapHome: '/snap/zaproxy/current',
-            target: 'http://<your-app-url>',
+            target: 'https://github.com/vampire07/scotland_yard.git',
             report: 'zap_report.html',
             failAllAlerts: false
         )
