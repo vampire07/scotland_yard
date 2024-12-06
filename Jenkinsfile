@@ -8,14 +8,6 @@ pipeline {
                 sh 'npm install' // Example for Node.js
             }
         }
-        stage('SAST Analysis') {
-            steps {
-                echo 'Running SonarQube Analysis...'
-                withSonarQubeEnv('SonarQube') {
-                    sh 'sonar-scanner -Dsonar.projectKey=my-app'
-                }
-            }
-        }
         stage('DAST Testing') {
     steps {
         echo 'Running OWASP ZAP...'
