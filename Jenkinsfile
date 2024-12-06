@@ -8,22 +8,25 @@ pipeline {
                 sh 'npm install' // Example for Node.js
             }
         }
-        stage('DAST Testing') {
-    steps {
-        echo 'Running OWASP ZAP...'
-        zap(
-            zapHome: '/snap/zaproxy/current',
-            target: 'https://github.com/vampire07/scotland_yard.git',
-            report: 'zap_report.html',
-            failAllAlerts: false
-        )
-    }
-}
-
         stage('Test') {
             steps {
                 echo 'Running tests...'
                 sh 'npm test' // Replace with relevant test command
+            }
+        }
+        stage('SAST Analysis') {
+            steps {
+                script {
+                    echo 'Running SonarQube analysis...'
+                    withSonarQubeEnv('SonarQube') { // Ensure 'SonarQube' matches the name you configured in Jenkins
+                        sh 'sonar-scanner' // This command runs the SonarQube scanner
+                    }
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: true
             }
         }
         stage('Deploy') {
